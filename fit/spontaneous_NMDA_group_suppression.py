@@ -1,5 +1,8 @@
 '''
-Adds inhibition after decision is made
+Simulate full scale neural network models in parallel.
+
+* Notes:
+- Adds inhibition after decision is made.
 '''
 
 import os
@@ -14,40 +17,42 @@ import dynalysis.classes as clss
 from math import sqrt
 from aadm.sode import RungeKutta4
 
-'''=====Parameters====='''
-p = 1
-c = 0
+'''=====Define parameters here====='''
+p = 1 # connection probability within populations
+c = 0 # coherence level
 mu0 = 0.0156/3
-Ne = Ni = 50
-N = 2*Ne + 2*Ni
-snum, enum = 12, 228
+Ne = Ni = 50 # number of neurons in each excitatory/inhibitory population
+N = 2*Ne + 2*Ni # total number of neurons in all populations
+snum, enum = 12, 228 # start and end index for trial numbers
 gmaval = [0.5,0.6,0.7,1,1]
-nsig, tA, dt, nsigg = 5, 0.002, 0.0001, 2.5
+nsig, tA, dt, nsigg = 5, 0.002, 0.0001, 2.5 # noise, time step
 crnumdic = {0:1, 3.2:2, 6.4:3, 12.8:4, 25.6:5, 51.2:6}
 rnum = crnumdic[c] 
+seed = 0
 
-sup = 0.005
-thre = 0.17
-delay = 0.15
+sup = 0.005 # inhibitory suppression
+thre = 0.17 # threshold
+delay = 0.15 # fixed delay added to reaction time to account for other biological processes
 print('suppression: '+str(sup))
 print('threshold: '+str(thre))
 print('delay: '+str(delay))
 print('Ne='+str(Ne)+', p='+str(p)+', nsig='+str(nsig)+', mu0='+str(mu0)+', nsigg='+str(nsigg))
+'''================================'''
 
 '''=====Network Setup====='''
-#Synaptic weights
+# synaptic weights
 gma, gma2, gma3, gma4, alpha = gmaval
 params = hpr.get_params_s2(gma, gma2, gma3, gma4, alpha)
 gees, gee, geis, gei, gies, gie, giis, gii, Ie, Ii = params
 gees, giis = np.array([gees, giis])/(Ne*p-1)
 geis, gies, gee, gei, gie, gii = np.array([geis, gies, gee, gei, gie, gii])/(Ne*p)
 
-#Connection matrix
+# connection matrix
 P = np.random.binomial(1,p,size=(N,N))
 for i in range(N): P[i][i] = 0
-np.random.seed(0) ##Temporary seed
+np.random.seed(seed)
 
-if True: #Probabilistic connection
+if True: # probabilistic connection
     Pee = np.random.binomial(1,p,size=(2*Ne,2*Ne))
     Pee = np.tril(Pee) + np.triu(Pee.T, 1)
     Pie = np.random.binomial(1,p,size=(2*Ne,2*Ni)) #Only works on Ne=Ni
@@ -59,7 +64,7 @@ if True: #Probabilistic connection
     P = np.vstack([np.hstack([Pee,Pie]), np.hstack([Pei,Pii])])
     for i in range(N): P[i][i] = 0
 
-if False: #Uniformly distributed weights
+if False: # uniformly distributed weights
     Pee = np.random.uniform(0.99,1.01,size=(2*Ne,2*Ne))
     Pee = np.tril(Pee) + np.triu(Pee.T, 1)
     Pie = np.random.uniform(0.99,1.01,size=(2*Ne,2*Ni)) #Only works on Ne=Ni
@@ -70,15 +75,16 @@ if False: #Uniformly distributed weights
     Pii = np.tril(Pii) + np.triu(Pii.T, 1)
     P = np.vstack([np.hstack([Pee,Pie]), np.hstack([Pei,Pii])])
     
-for i in range(N): P[i][i] = 0
+for i in range(N): P[i][i] = 0 # no self connections
+'''======================='''
 
-#Folder
+# define path, folders
 Q = 'sup='+str(sup)+'_thre='+str(thre)+'_delay='+str(delay)+'_'
 obran = clss.branch('Ne='+str(Ne)+', p='+str(p)+', nsig='+str(nsig)+', mu0='+str(mu0)+', nsigg='+str(nsigg), os.getcwd())
 bran = clss.branch(Q+'Ne='+str(Ne)+', p='+str(p)+', nsig='+str(nsig)+', mu0='+str(mu0)+', nsigg='+str(nsigg), os.getcwd())
 bran.mkdir()
 
-#Functions
+# subfunctions
 def unpack(v):
     return v[:Ne], v[Ne:2*Ne], v[2*Ne:2*Ne+Ni], v[2*Ne+Ni:N], v[N:N+2*Ne], v[N+2*Ne:]
 

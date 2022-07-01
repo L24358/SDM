@@ -1,5 +1,8 @@
 '''
-Uses tA = tau_NMDA
+Simulate SMA models (full, selective models) in parallel.
+
+* Notes:
+- Changes compared to last version: used tA=tau_AMPA.
 '''
 
 import os
@@ -19,17 +22,20 @@ from datetime import date
 from aadm.sode import RungeKutta4
 
 '''=====Define parameters here====='''
-gmavals= [[0.9,1,1,0,2]]*6 
+gmavals= [[0.9,1,1,0,2]]*6 # parameter values to loop over: gma, gma2, gma3, gma4, alpha
 snums = bcs.rpt(len(gmavals), None)
 
 pmnum = int(len(gmavals)/6)
-enums = np.repeat([1500,1500,1500,1000,300,200], pmnum)
-cs = np.repeat([0,3.2,6.4,12.8,25.6,51.2], pmnum)
+enums = np.repeat([1500,1500,1500,1000,300,200], pmnum) # number of trials to simulate for each coherence value
+cs = np.repeat([0,3.2,6.4,12.8,25.6,51.2], pmnum) # coherence values
 crnumdic = {0:1, 3.2:2, 6.4:3, 12.8:4, 25.6:5, 51.2:6}
-nsig, tA, dt = 0.5*10, 0.002, 0.0001
+nsig, tA, dt = 0.5*10, 0.002, 0.0001 # noise and time steps
 '''================================'''
 
 def sim(k):
+    '''One simulation task.'''
+
+    # extract simulation parameters for this trial
     snum = snums[k]; enum = enums[k]
     c = cs[k]; rnum = crnumdic[c]
     gma, gma2, gma3, gma4, alpha = gmavals[k]
@@ -37,6 +43,7 @@ def sim(k):
     params = hpr.get_params_s2(gma, gma2, gma3, gma4, alpha)
     gees, gee, geis, gei, gies, gie, giis, gii, Ie, Ii = params
     
+    # ODEs for SMA
     def rhs(v, t):
         s1, s2, sG1, sG2, n1, n2 = v
         f1 = hpr.S_N(s1, gees*s1+gee*s2-gies*sG1-gie*sG2+Ie+hpr.pulse(hpr.Inp1(c), t-0.5)+n1)
@@ -47,12 +54,14 @@ def sim(k):
         f6 = (-n2 + hpr.noise(0,1)*sqrt(tA*nsig**2))/tA
         return np.array([f1,f2,f3,f4,f5,f6])
     
-    b = clss.branch(fname, bcs.datapath()); b.mkdir()
-    #nbran = clss.branch(fname, bcs.datapath2()); nbran.mkdir()
+    # define path, folders, starting index
+    b = clss.branch(fname, bcs.datapath()); b.mkdir() # folder for downsampled results
+    #nbran = clss.branch(fname, bcs.datapath2()); nbran.mkdir() # folder for original results
     if snum==None:
         snum = bcs.get_max(b.pathlink, rnum)+1
     print(snum)
     
+    # save parameters
     pdic = {'gees':gees, 'gies':gies, 'geis':geis, 'giis':giis,\
             'gee':gee, 'gie':gie, 'gei':gei, 'gii':gii,\
             'Ii':Ii, 'Ie':Ie, 'gma':gma, 'gma2':gma2, 'gma3':gma3,\
@@ -62,7 +71,8 @@ def sim(k):
     dbcs.output_line(os.path.join(b.pathlink, 'run'+str(rnum)+'_param.dat'), '\n'+today.strftime("%d/%m/%Y"))
     dbcs.output_single_col(os.path.join(b.pathlink, 'run'+str(rnum)+'_param.dat'), to_save_list)
     
-    check = True
+    # main
+    check = True # check simulation result (for one trial)
     for rp in range(snum, enum):
         np.random.seed(rp)
         solver = RungeKutta4(rhs)

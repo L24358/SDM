@@ -1,5 +1,9 @@
 '''
-In here, since bg!=0 (i.e. it is not a fair trial), the simulation starts at t=0
+Simulate time-dependent linear reduced models in parallel.
+
+* Notes:
+- Here, since bg!=0 (i.e. it is not a fair trial), the stimulus input begins at t=0.
+    (In other simulation trials, stimulus input starts at t=50 ms for ease of verifying stability of original attractor.)
 '''
 
 import os
@@ -19,21 +23,23 @@ from datetime import date
 from aadm.sode import RungeKutta4
 
 '''=====Define parameters here====='''
-agvals = list(np.load(os.path.join(bcs.datapath(),'files','agvals.npy')))
+agvals = list(np.load(os.path.join(bcs.datapath(),'files','agvals.npy'))) # a_L values to loop over
 agvals = [agvals[x] for x in np.arange(2,38,7)]*6
-bgvals = list(np.load(os.path.join(bcs.datapath(),'files','bgvals.npy')))
+bgvals = list(np.load(os.path.join(bcs.datapath(),'files','bgvals.npy'))) # b_L values to loop over
 bgvals = [bgvals[x] for x in np.arange(2,38,7)]*6
-gmaval = [0.5,0.6,0.7,1,1]
+gmaval = [0.5,0.6,0.7,1,1] # parameters for the full model in which a_L, b_L were extracted from
 snums = bcs.rpt(len(agvals), None)
 
 pmnum = int(len(agvals)/6)
-enums = np.repeat([1500,1500,1500,1000,300,200], pmnum)
-cs = np.repeat([0,3.2,6.4,12.8,25.6,51.2], pmnum)
+enums = np.repeat([1500,1500,1500,1000,300,200], pmnum) # number of trials to simulate for each coherence value
+cs = np.repeat([0,3.2,6.4,12.8,25.6,51.2], pmnum) # coherence values
 crnumdic = {0:1, 3.2:2, 6.4:3, 12.8:4, 25.6:5, 51.2:6}
-nsig, tA, dt = 0.5*10, 0.002, 0.0001
+nsig, tA, dt = 0.5*10, 0.002, 0.0001 # noise and time steps
 '''================================'''
 
-def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
+def sim_seed(k):
+
+    # extract simulation parameters for this trial
     snum = snums[k]; enum = enums[k]
     c = cs[k]; rnum = crnumdic[c]
     gma, gma2, gma3, gma4, alpha = gmaval
@@ -42,6 +48,7 @@ def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
     a, b = vsn.get_ab_SM(params)
     ag, bg = agvals[k], bgvals[k]
     
+    # ODE for time-dependent linear reduced model
     m, n = gies+gie, gies-gie
     def rhs_abv2(v, t):
         s1, s2, n1, n2 = v
@@ -51,15 +58,15 @@ def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
         f5 = (-n2 + hpr.noise(0,1)*sqrt(tA*nsig**2))/tA
         return np.array([f1,f2,f4,f5])
     
+    # define path, folders, starting index
     func = rhs_abv2; init = list(hpr.get_EQ_ab_s2(params, a, b))+[0,0]
     fname = 'agval='+str(round(agvals[k],5))
-    
     bran = clss.branch(fname, bcs.datapath()); bran.mkdir()
-    #nbran = clss.branch(fname, bcs.datapath2()); nbran.mkdir()
     if snum==None:
         snum = bcs.get_max(bran.pathlink, rnum)+1
     print(snum)
     
+    # save parameters
     pdic = {'gees':gees, 'gies':gies, 'geis':geis, 'giis':giis,\
             'gee':gee, 'gie':gie, 'gei':gei, 'gii':gii,\
             'Ii':Ii, 'Ie':Ie, 'gma':gma, 'gma2':gma2, 'gma3':gma3,\
@@ -69,7 +76,8 @@ def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
     dbcs.output_line(os.path.join(bran.pathlink, 'run'+str(rnum)+'_param.dat'), '\n'+today.strftime("%d/%m/%Y"))
     dbcs.output_single_col(os.path.join(bran.pathlink, 'run'+str(rnum)+'_param.dat'), to_save_list)
     
-    check = True
+    # main
+    check = True # check simulation result (for one trial)
     for rp in range(snum, enum):
         np.random.seed(rp)
         solver = RungeKutta4(func)

@@ -1,3 +1,7 @@
+'''
+Compare self-written AUC method with AUC using scipy.
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression

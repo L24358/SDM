@@ -1,6 +1,9 @@
 '''
-abv3: matches the noise of 4e
-Q: fits to quadratic
+Simulate quadratic reduced models in parallel.
+
+* Notes:
+- abv3: matches the noise of 4e.
+- "Q" (identifier): fits to quadratic.
 '''
 
 import os
@@ -25,13 +28,15 @@ gmavals = [[0.3,0.6,0.5,1,1], [0.3,0.6,0.6,1,1], [0.3,0.6,0.7,1,1],\
 snums = bcs.rpt(len(gmavals), None)
 
 pmnum = int(len(gmavals)/6)
-enums = np.repeat([1000,1000,1000,500,200,200], pmnum)
-cs = np.repeat([0,3.2,6.4,12.8,25.6,51.2], pmnum)
+enums = np.repeat([1000,1000,1000,500,200,200], pmnum) # number of trials to simulate for each coherence value
+cs = np.repeat([0,3.2,6.4,12.8,25.6,51.2], pmnum) # coherence values
 crnumdic = {0:1, 3.2:2, 6.4:3, 12.8:4, 25.6:5, 51.2:6}
-nsig, tA, dt = 0.5*10, 0.002, 0.0001
+nsig, tA, dt = 0.5*10, 0.002, 0.0001 # noise and time steps
 '''================================'''
 
-def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
+def sim_seed(k):
+
+    # extract simulation parameters for this trial
     snum = snums[k]; enum = enums[k]
     c = cs[k]; rnum = crnumdic[c]
     gma, gma2, gma3, gma4, alpha = gmavals[k]
@@ -40,6 +45,7 @@ def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
     a, b = vsn.get_ab_SM(params)
     ag, bg, cg = vsn.get_abg_SM2(params)
     
+    # ODEs for quadratic reduced model
     m, n = gies+gie, gies-gie
     def rhs_abv2(v, t):
         s1, s2, n1, n2 = v
@@ -49,15 +55,15 @@ def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
         f5 = (-n2 + hpr.noise(0,1)*sqrt(tA*nsig**2))/tA
         return np.array([f1,f2,f4,f5])
     
+    # define path, folders, starting index
     func = rhs_abv2; init = list(hpr.get_EQ_ab_s2(params, a, b))+[0,0]
     fname = 'SMAabv3Q_gma='+str(gma)+', '+str(gma2)+', '+str(gma3)+', '+str(gma4)+', '+str(alpha)
-    
     bran = clss.branch(fname, bcs.datapath()); bran.mkdir()
-    #nbran = clss.branch(fname, bcs.datapath2()); nbran.mkdir()
     if snum==None:
         snum = bcs.get_max(bran.pathlink, rnum)+1
     print(snum)
     
+    # save parameters
     pdic = {'gees':gees, 'gies':gies, 'geis':geis, 'giis':giis,\
             'gee':gee, 'gie':gie, 'gei':gei, 'gii':gii,\
             'Ii':Ii, 'Ie':Ie, 'gma':gma, 'gma2':gma2, 'gma3':gma3,\
@@ -67,7 +73,8 @@ def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
     dbcs.output_line(os.path.join(bran.pathlink, 'run'+str(rnum)+'_param.dat'), '\n'+today.strftime("%d/%m/%Y"))
     dbcs.output_single_col(os.path.join(bran.pathlink, 'run'+str(rnum)+'_param.dat'), to_save_list)
     
-    check = True
+    # main
+    check = True # check simulation result (for one trial)
     for rp in range(snum, enum):
         np.random.seed(rp)
         solver = RungeKutta4(func)
@@ -81,9 +88,7 @@ def sim_seed(k): #tpe, gmas, c, rnum, snum, enum, tA=1, nsig=0.5, dt=0.0001
         
         ntrace = np.transpose(np.asarray(resy))
         dtrace = vsn.downsample(ntrace)
-        #nfile = os.path.join(nbran.pathlink,'run'+str(rnum)+'_tr'+str(rp)+'.npy')
         dfile = os.path.join(bran.pathlink,'run'+str(rnum)+'_tr'+str(rp)+'.npy')
-        #np.save(nfile, ntrace)
         np.save(dfile, dtrace)
         gc.collect()
         

@@ -1,5 +1,8 @@
 '''
-Tests average NMDA IO function
+Simulate full scale neural network models in parallel.
+
+* Notes:
+- DOES NOT add inhibition after decision is made.
 '''
 
 import os
@@ -14,7 +17,7 @@ import dynalysis.classes as clss
 from math import sqrt
 from aadm.sode import RungeKutta4
 
-'''=====Parameters====='''
+'''=====Define parameters here====='''
 p = 1
 c = 0
 mu0 = 0#.0156/3
@@ -25,22 +28,25 @@ gmaval = [0.5,0.6,0.7,1,1]
 nsig, tA, dt, nsigg = 5, 0.002, 0.0001, 2.5
 crnumdic = {0:1, 3.2:2, 6.4:3, 12.8:4, 25.6:5, 51.2:6}
 rnum = crnumdic[c]
+seed = 0
+
 print('Ne='+str(Ne)+', p='+str(p)+', nsig='+str(nsig)+', mu0='+str(mu0)+', nsigg='+str(nsigg))
+'''================================'''
 
 '''=====Network Setup====='''
-#Synaptic weights
+# synaptic weights
 gma, gma2, gma3, gma4, alpha = gmaval
 params = hpr.get_params_s2(gma, gma2, gma3, gma4, alpha)
 gees, gee, geis, gei, gies, gie, giis, gii, Ie, Ii = params
 gees, giis = np.array([gees, giis])/(Ne*p-1)
 geis, gies, gee, gei, gie, gii = np.array([geis, gies, gee, gei, gie, gii])/(Ne*p)
 
-#Connection matrix
+# connection matrix
 P = np.random.binomial(1,p,size=(N,N))
 for i in range(N): P[i][i] = 0
-np.random.seed(0) ##Temporary seed
+np.random.seed(seed)
 
-if False: #Probabilistic connection
+if False: # probabilistic connection
     Pee = np.random.binomial(1,p,size=(2*Ne,2*Ne))
     Pee = np.tril(Pee) + np.triu(Pee.T, 1)
     Pie = np.random.binomial(1,p,size=(2*Ne,2*Ni)) #Only works on Ne=Ni
@@ -52,7 +58,7 @@ if False: #Probabilistic connection
     P = np.vstack([np.hstack([Pee,Pie]), np.hstack([Pei,Pii])])
     for i in range(N): P[i][i] = 0
 
-if True: #Uniformly distributed weights
+if True: # uniformly distributed weights
     Pee = np.random.uniform(0.99,1.01,size=(2*Ne,2*Ne))
     Pee = np.tril(Pee) + np.triu(Pee.T, 1)
     Pie = np.random.uniform(0.99,1.01,size=(2*Ne,2*Ni)) #Only works on Ne=Ni
@@ -64,13 +70,14 @@ if True: #Uniformly distributed weights
     P = np.vstack([np.hstack([Pee,Pie]), np.hstack([Pei,Pii])])
     
 for i in range(N): P[i][i] = 0
+'''======================='''
 
-#Folder
+# define path, folders
 Q = 'unif=0.01_'
 bran = clss.branch(Q+'Ne='+str(Ne)+', p='+str(p)+', nsig='+str(nsig)+', mu0='+str(mu0)+', nsigg='+str(nsigg), os.getcwd())
 bran.mkdir()
 
-#Functions
+# subfunctions
 def unpack(v):
     return v[:Ne], v[Ne:2*Ne], v[2*Ne:2*Ne+Ni], v[2*Ne+Ni:N], v[N:N+2*Ne], v[N+2*Ne:]
 
