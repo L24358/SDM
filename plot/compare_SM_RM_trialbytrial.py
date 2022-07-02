@@ -1,3 +1,7 @@
+'''
+Plot the trial-by-trial comparison of the full model and reduced model.
+'''
+
 import os
 import pickle
 import matplotlib.pyplot as plt

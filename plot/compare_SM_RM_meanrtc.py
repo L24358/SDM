@@ -1,3 +1,7 @@
+'''
+Compare the mean reaction time of the full model, the linear reduced model and the quadratic reduced model.
+'''
+
 import os
 import pickle
 import numpy as np

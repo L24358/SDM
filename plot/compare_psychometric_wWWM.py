@@ -1,3 +1,7 @@
+'''
+Plot psychometric function in the style of Wong and Wang's paper for comparison purposes.
+'''
+
 import os
 import numpy as np
 import pickle

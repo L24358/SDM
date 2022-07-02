@@ -1,3 +1,7 @@
+'''
+Plot difference of nullcline between two WWM.
+'''
+
 import os
 import aadm.basics as bcs
 import aadm.helper as hpr
