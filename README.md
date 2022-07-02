@@ -10,7 +10,7 @@
   <h3 align="center">SDM</h3>
 
   <p align="center">
-    Code for <strong><em>Attractor Decision Network with Selective Inhibition</em></strong> by Belle (Pei-Hsien) Liu, Chung-Chuan Lo and Kuo-An Wu. <br/> bioRxiv link: ____
+    Code for <strong><em>Attractor Decision Network with Selective Inhibition</em></strong> by Belle (Pei-Hsien) Liu, Chung-Chuan Lo and Kuo-An Wu. <br/> bioRxiv link: 
     <br />
     <a href="https://github.com/L24358/SDM"><strong>Explore the docs »</strong></a>
     <br />
@@ -57,19 +57,30 @@ The ability to decide swiftly and accurately in an urgent scenario is crucial fo
 
 ### exec
 
-- ``ss_flysim_iter=0``: runs flysim in current directory.
-- ``ss_flysim_iter=1``: runs flysim in all first-level sub-directories.
-- ``ss_flysim_iter=2``: runs flysim in all second-level sub-directories.
+Code that runs simulation of full models, reduced models, time-dependent reduced models, and full-scale neural network models.
+- ``run_2MA``: simulates WWM.
+- ``run_full_scale_model_wsuppression``: simulates full scale models, with suppression of activity after decision is made.
+- ``run_full_scale_model``: simulates full scale models, without suppression of activity after decision is made.
+- ``run_LRM``: simulates linear reduced models.
+- ``run_QRM``: simulates quadratic reduced models.
+- ``run_SM_v4e``: simulates selective models (version 4e).
+- ``run_TDLRM``: simulates linear time-dependent reduced models.
 
 ### analysis
 
-- ``gen_pro``: generates protocol file.
-- ``gen_conf``: generates configuration files.
-- ``classes``: includes some commonly used classes. In particular, class ``motif`` generates small neuronal circuits when the ID is given. See how to specify circuit ID here:
+Code that analyzes the simulation results, mainly extracting information regarding accuracy and reaction time.
+- ``analyze_full_scale_model_selectivity_wsuppression``: analyzes full scale models with suppression.
+- ``analyze_full_scale_model_selectivity``: analyzes full scale models without suppression.
+- ``analyze_SM_parametrize_accrt``: parametrizes the speed and accuracy of full models.
+- ``compare_SM_RM_accrt``: compares the accuracy and reaction time of full and reduced models.
 
 ### plot
 
-### fit
+Code that plots results.
+
+### test
+
+Code that tests rudimentary functions and ideas.
 
 <!-- ROADMAP -->
 ## Roadmap
