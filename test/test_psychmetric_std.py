@@ -1,3 +1,7 @@
+'''
+Plot the standard deviation of the psychometric function.
+'''
+
 import os
 import pickle
 import numpy as np

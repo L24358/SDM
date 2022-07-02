@@ -1,4 +1,6 @@
-'''As 2d slices'''
+'''
+Plot parameter sweep of WWM as 2D slices.
+'''
 
 import os
 import gc
@@ -14,12 +16,14 @@ from itertools import product
 inp1 = inp2 = 0
 
 def same(lst, x):
+    '''Determines if x belongs to one of the equilibrium points already found in lst.'''
     for item in lst:
         deter = np.any([round(x[i],3)==round(item[i],3) for i in range(2)])
         if deter: return True
     return False
 
 def deter_root_count(params):
+    '''Determines the number of roots.'''
     J1, J2, Ie = params
     def nullcline_UM(z):
         s1 = z[0]; s2 = z[1]
