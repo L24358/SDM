@@ -1,3 +1,7 @@
+'''
+Plot Delta_RT as a function of threshold.
+'''
+
 import os
 import numpy as np
 import seaborn as sns
@@ -12,7 +16,6 @@ mother = os.getcwd()
 agvals = [[0.5,0.6,0.7,1,1], [0.5,1,1,0,2], [0.75,1,1,0,2], [0.83,1,1,0,2]]
 color = ['grey']+list(sns.color_palette("hls", 3))
 
-#agvals
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
 for k in range(len(agvals)):
@@ -28,6 +31,7 @@ for k in range(len(agvals)):
     
     rtcss = np.array(rtcss)
     plt.plot(np.arange(0.1,0.7,0.1)[1:], rtcss[1:]-rtcss[:-1], color=color[k], marker='.')
+
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 plt.xlabel('till this thre'); plt.ylabel('RT')

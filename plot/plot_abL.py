@@ -1,3 +1,6 @@
+'''
+Fits aL(t), bL(t) values.
+'''
 import os
 import gc
 import numpy as np
@@ -19,15 +22,18 @@ params = hpr.get_params_s2(gma, gma2, gma3, gma4, alpha)
 color = sns.color_palette("hls", 3)
 
 ass, bss = [], []
-for ss in np.arange(0.1,0.35,0.1):
+for ss in np.arange(0.1,0.35,0.1): # different starting points
+
     s1, s2, sg1, sg2 = vsn.sim_SM_nonoise(ss, params, d = 0.05)
     sminus = (s1-s2)/2; sgminus = (sg1-sg2)/2
     period = []; period2 = []
-    for t0 in np.arange(0,9500,250): 
+
+    for t0 in np.arange(0,9500,250): # different time periods
         popt, pcov = curve_fit(hpr.affine, sminus[t0:t0+250], sgminus[t0:t0+250])
         period.append(popt[1]); period2.append(popt[0])
     ass.append(period2); bss.append(period)
     
+# plot aL
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
 for p in range(len(ass)):
@@ -38,6 +44,7 @@ ax.spines['right'].set_visible(False)
 plt.tight_layout()
 plt.savefig('ag_evolution.png', dpi=600)
 
+# plot bL
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
 for p in range(len(bss)):
@@ -49,6 +56,7 @@ ax.spines['right'].set_visible(False)
 plt.tight_layout()
 plt.savefig('bg_evolution.png', dpi=600)
 
+# plot legend
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
 splus = [0.1,0.2,0.3]

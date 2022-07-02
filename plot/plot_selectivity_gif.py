@@ -1,3 +1,7 @@
+'''
+Plot gif to explain the concept of selectivity.
+'''
+
 import os
 import imageio
 import numpy as np

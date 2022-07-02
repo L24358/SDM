@@ -1,3 +1,6 @@
+'''
+Plot gif that illustrates the 2AFC experiment considered, and the concept of coherence.
+'''
 import os
 import imageio
 import numpy as np

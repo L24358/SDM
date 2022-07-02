@@ -1,3 +1,7 @@
+'''
+Plot the relation between a_Q, c_inp for the minus direction, and deviation (lag).
+'''
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -53,10 +57,11 @@ for k in range(len(gmavals)):
     
     popt, pcov = curve_fit(hpr.Quad, sminus, sgminus)
     
-    x.append(min(dm)*100)
-    y.append(popt[0])
-    c.append(sm_inp)
+    x.append(min(dm)*100) # d_minus, lag of minus direction
+    y.append(popt[0]) # a_Q
+    c.append(sm_inp) # c_inp for sm
     
+# plot d_minus as a function of c_inp
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
 plt.plot(c, x, 'k.')
@@ -66,6 +71,7 @@ plt.xlabel('sminp'); plt.ylabel('lag')
 plt.tight_layout()
 plt.savefig(os.path.join(mother,'sminp_lag.png'), dpi=600); plt.clf()
     
+# plot a_Q as a function of d_minus
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
 plt.plot(x, y, 'k.')

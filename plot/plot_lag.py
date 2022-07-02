@@ -1,3 +1,7 @@
+'''
+Plot deviation (lag) as a function of time.
+'''
+
 import os
 import seaborn as sns
 import aadm.helper as hpr

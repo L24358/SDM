@@ -1,3 +1,7 @@
+'''
+Plot S_NMDA as a function of time.
+'''
+
 import os
 import aadm.helper as hpr
 import aadm.vision as vsn

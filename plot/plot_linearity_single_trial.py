@@ -1,3 +1,7 @@
+'''
+Plot linear relation for a single trial of UM, SM plus; and seemingly linear relation of a single trial of SM minus.
+'''
+
 import os
 import numpy as np
 import seaborn as sns
@@ -13,6 +17,8 @@ galists = [[0.1,1,1,0,2],[0.3,1,1,0,2],[0.5,1,1,0,2],\
 cnt = 0; endt = 100; sd = 1
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
+
+# plot UM
 for ga in galists:
     print(ga)
     gma, gma2, gma3, gma4, alpha = ga
@@ -28,7 +34,7 @@ plt.xlabel('sg'); plt.ylabel('splus')
 plt.tight_layout()
 plt.savefig(os.path.join(mother,'linearity_UM.png'), dpi=600); plt.clf()
         
-        
+# plot SM
 galists = [[0.3,0.6,0.5,1,1],[0.3,0.6,0.6,1,1],[0.3,0.6,0.7,1,1],\
             [0.3,0.6,0.8,1,1]]
 cnt = 0
@@ -49,7 +55,7 @@ plt.xlabel('sg'); plt.ylabel('splus')
 plt.tight_layout()
 plt.savefig(os.path.join(mother,'linearity_SM.png'), dpi=600); plt.clf()
  
-    
+# plot SM, minus direction
 galists = [[0.3,0.6,0.5,1,1],[0.3,0.6,0.6,1,1],[0.3,0.6,0.7,1,1],\
             [0.3,0.6,0.8,1,1]]
 cnt = 0

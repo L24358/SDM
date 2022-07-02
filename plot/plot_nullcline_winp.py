@@ -1,5 +1,5 @@
-'''Make smoother:
-https://stackoverflow.com/questions/5283649/plot-smooth-line-with-pyplot
+'''
+Plot nullcline with input.
 '''
 
 import os

@@ -1,3 +1,7 @@
+'''
+Demonstrative plot of response distribution and roc.
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm

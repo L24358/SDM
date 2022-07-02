@@ -1,3 +1,7 @@
+'''
+Plot log-log relation of a single trial for SM, minus direction.
+'''
+
 import os
 import gc
 import time

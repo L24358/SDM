@@ -1,5 +1,8 @@
-'''Make smoother:
-https://stackoverflow.com/questions/5283649/plot-smooth-line-with-pyplot
+'''
+Plot nullcline in which population 2 is favored.
+
+* Notes:
+- Make smoother: https://stackoverflow.com/questions/5283649/plot-smooth-line-with-pyplot
 '''
 
 import os

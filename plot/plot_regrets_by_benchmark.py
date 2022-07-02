@@ -1,3 +1,7 @@
+'''
+Plot the percentage of regret trials as a function of benchmark.
+'''
+
 import os
 import numpy as np
 import seaborn as sns
@@ -30,21 +34,17 @@ def regret(traces, bmark, thre):
 
 rnum = 1
 mother = os.getcwd()
-# agvals = list(np.load(os.path.join(bcs.datapath(),'files','agvals.npy')))
+# agvals = list(np.load(os.path.join(bcs.datapath(),'files','agvals.npy'))) # plot regret for LTDRM instead
 # agvals = [agvals[x] for x in np.arange(2,38,7)]
-# bgvals = list(np.load(os.path.join(bcs.datapath(),'files','bgvals.npy')))
-# bgvals = [bgvals[x] for x in np.arange(2,38,7)]
-# sms = list(np.load(os.path.join(bcs.datapath(),'files','sminuses.npy')))
-# sms = [sms[x] for x in np.arange(2,38,7)]
 agvals = [[0.5,0.6,0.7,1,1], [0.5,1,1,0,2], [0.83,1,1,0,2]]
 color = ['grey']+[sns.color_palette("hls", 3)[0], sns.color_palette("hls", 3)[2]]
 
-#agvals
+# main
 fig = plt.figure(figsize=(4,3))
 ax = fig.add_subplot(111)
-bmarks = list(np.arange(0.0,0.1,0.01)[1:])#+list(np.arange(0.1,0.2,0.05))
+bmarks = list(np.arange(0.0,0.1,0.01)[1:])#+list(np.arange(0.1,0.2,0.05)) # benchmarks
 for k in range(len(agvals)):
-    # fname = 'agval='+str(round(agvals[k],5))
+    # fname = 'agval='+str(round(agvals[k],5)) # plot regret for LTDRM instead
     gma, gma2, gma3, gma4, alpha = agvals[k]
     fname = 'SMA4e_gma='+str(gma)+', '+str(gma2)+', '+str(gma3)+', '+str(gma4)+', '+str(alpha)
     traces = vsn.inquire_trace_npy(rnum, fname, 1500)

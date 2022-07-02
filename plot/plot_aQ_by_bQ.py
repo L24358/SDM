@@ -1,3 +1,7 @@
+'''
+Plot aQ as a function of bQ for different SMs.
+'''
+
 import os
 import gc
 import time
@@ -19,7 +23,7 @@ gmavals = [[0.3,0.6,0.5,1,1], [0.3,0.6,0.7,1,1], [0.3,0.6,0.7,1,1],\
 '''================================'''
 
 mother = os.getcwd()
-nn = []; nn2 = []
+nn = []; nn2 = [] # nn: aQ, nn2: bQ
 asim, bsim = [], []
 astd, bstd = [], []
 for k in range(len(gmavals)):

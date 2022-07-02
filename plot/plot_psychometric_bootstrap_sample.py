@@ -1,3 +1,7 @@
+'''
+Plot averaged psychometric function with single bootstrap sample.
+'''
+
 import os
 import pickle
 import warnings
@@ -29,15 +33,16 @@ def Quad(T, a, b, c):
 def bounds():
     return [(-100,100), (-100,100), (-100,100)]
 
-#define parameters
+# define parameters
 mother = os.getcwd()
 coherence = [0,3.2,6.4,12.8,25.6,51.2]
 x = np.linspace(0,np.log(51.2),num=20)[1:]
 xexp = [0] + [np.exp(i) for i in x]
 x = [0] + list(x)
 xdot = [0]+[np.log(c) for c in coherence[1:]]
-B = 1
+B = 1 # bootstrap sample number
 
+# main
 for k in range(len(gmavals)):
     bootaccs, bootrtcs, bootrtws = [], [], []
     gma, gma2, gma3, gma4, alpha = gmavals[k]
@@ -58,8 +63,8 @@ for k in range(len(gmavals)):
         
     fig = plt.figure(figsize=(4,3))
     ax = fig.add_subplot(111)
-    plt.plot(x, y, 'k--', label='fitted')
-    plt.plot(xdot, bootaccs[0], 'b.', label='bootstrap sample')
+    plt.plot(x, y, 'k--', label='fitted') # averaged result
+    plt.plot(xdot, bootaccs[0], 'b.', label='bootstrap sample') # single bootstrap sample
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     xaxis = [0]+[np.log(c) for c in [3.2,6.4,12.8,25.6,51.2]]
