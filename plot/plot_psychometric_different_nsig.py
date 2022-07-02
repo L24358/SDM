@@ -1,3 +1,7 @@
+'''
+Plot psychometric function for models with different amount of noise (nsig).
+'''
+
 import os
 import pickle
 import warnings

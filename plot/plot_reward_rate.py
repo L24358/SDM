@@ -1,3 +1,7 @@
+'''
+Plot reward rate as a function of selectivity.
+'''
+
 import os
 import seaborn as sns
 import aadm.helper as hpr

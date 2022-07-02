@@ -1,3 +1,7 @@
+'''
+Plot multiple trials of S_NMDA in 2D.
+'''
+
 import os
 import aadm.basics as bcs
 import aadm.helper as hpr

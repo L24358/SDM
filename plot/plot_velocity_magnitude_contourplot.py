@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Plot velocity magnitude as a contour plot.
 

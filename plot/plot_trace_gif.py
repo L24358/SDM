@@ -1,3 +1,7 @@
+'''
+Plot traces of simulations in gif.
+'''
+
 import os
 import imageio
 import numpy as np

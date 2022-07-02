@@ -1,3 +1,7 @@
+'''
+Plot demonstration of how the quadratic relation is a subtraction of deviation (lag) from the steady-state solution.
+'''
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt

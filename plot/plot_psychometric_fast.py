@@ -1,3 +1,7 @@
+'''
+Plot psychometric function of UM with faster GABA dynamics.
+'''
+
 import os
 import pickle
 import warnings
