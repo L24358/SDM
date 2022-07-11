@@ -10,8 +10,7 @@
   <h3 align="center">SDM</h3>
 
   <p align="center">
-    Code for <strong><em>Attractor Decision Network with Selective Inhibition</em></strong> by Belle (Pei-Hsien) Liu, Chung-Chuan Lo and Kuo-An Wu. <br/> bioRxiv link: 
-    <br />
+    Code for <strong><em>Attractor Decision Network with Selective Inhibition</em></strong> by Belle (Pei-Hsien) Liu, Chung-Chuan Lo and Kuo-An Wu. 
     <a href="https://github.com/L24358/SDM"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -141,5 +140,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Belle (Pei-Hsien) Liu - belle.l24358@gmail.com
 
-Project Link: [https://github.com/L24358/SDM](https://github.com/L24358/SDM)
+Project Link: [https://www.biorxiv.org/content/10.1101/2021.10.05.463257v2](https://www.biorxiv.org/content/10.1101/2021.10.05.463257v2)
 
