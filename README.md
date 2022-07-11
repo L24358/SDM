@@ -10,7 +10,7 @@
   <h3 align="center">SDM</h3>
 
   <p align="center">
-    Code for <strong><em>Attractor Decision Network with Selective Inhibition</em></strong> by Belle (Pei-Hsien) Liu, Chung-Chuan Lo and Kuo-An Wu. 
+    Code for <strong><em>Attractor Decision Network with Selective Inhibition</em></strong> by Belle (Pei-Hsien) Liu, Chung-Chuan Lo and Kuo-An Wu. <br/><br />
     <a href="https://github.com/L24358/SDM"><strong>Explore the docs »</strong></a>
     <br />
     <br />
