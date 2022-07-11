@@ -78,6 +78,48 @@ Code that analyzes the simulation results, mainly extracting information regardi
 
 Code that plots results.
 
+- ``compare_ab_absim``: compares theoretical (noiseless) vs averaged (noisy) a, b and aQ, bQ values.
+- ``compare_different_WWM_by_nullcline``: plot difference of nullcline between two WWM.
+- ``compare_psychometric_wWWM``: plot psychometric function in the style of Wong and Wang's paper for comparison purposes.
+- ``compare_SM_QRM_meanrtc``: compare the mean reaction time of the full model and the quadratic reduced model.
+- ``compare_SM_RM_meanacc``: compare the accuracy of the full model, the linear reduced model and the quadratic reduced model.
+- ``compare_SM_RM_meanrtc``: compare the mean reaction time of the full model, the linear reduced model and the quadratic reduced model.
+- ``compare_SM_RM_trialbytrial``: plot the trial-by-trial comparison of the full model and reduced model.
+- ``plot_abL``: fits aL(t), bL(t) values.
+- ``plot_accrt_thre``: plots speed-accuracy trade-off plane for different thresholds.
+- ``plot_aQ_by_bQ``: plot aQ as a function of bQ for different SMs.
+- ``plot_bL_by_splus``: calculate crossing time as a function of splus, conditioned on the benchmark value (=0.05).
+- ``plot_coherence_gif``: plot gif that illustrates the 2AFC experiment considered, and the concept of coherence.
+- ``plot_dRT_by_threshold``: plot Delta_RT as a function of threshold.
+- ``plot_lag_by_aQ_by_cinp``: plot the relation between a_Q, c_inp for the minus direction, and deviation (lag).
+- ``plot_lag_by_derivative``: plot deviation (lag) as a function of the derivative of splus, sminus.
+- ``plot_lag``: plot deviation (lag) as a function of time.
+- ``plot_landscape_1D``: plot deviation (lag) as a function of the derivative of splus, sminus.
+- ``plot_linearity_single_trial``: plot linear relation for a single trial of UM, SM plus; and seemingly linear relation of a single trial of SM minus.
+- ``plot_log_by_log``: plot log-log relation of a single trial for SM, minus direction.
+- ``plot_multiple_trials_SNMDA_1D``: plot multiple trials of S_NMDA in 1D.
+- ``plot_multiple_trials_SNMDA_2D``: plot multiple trials of S_NMDA in 2D.
+- ``plot_nullcine_favor1``: plot nullcline in which population 1 is favored.
+- ``plot_nullcline_favor2``: plot nullcline in which population 2 is favored.
+- ``plot_nullcline_winp``: plot nullcline with input.
+- ``plot_phase_space_accrt``: plot accuracy and reaction time parameters in the phase space of gamma2 and gamma3.
+- ``plot_psychometric_bootstrap_sample``: plot averaged psychometric function with single bootstrap sample.
+- ``plot_psychometric_different_nsig``: plot psychometric function for models with different amount of noise (nsig).
+- ``plot_psychometric_fast``: plot psychometric function of UM with faster GABA dynamics.
+- ``plot_psychometric_LTDRM``: plot the psychometric function for LTDRM.
+- ``plot_regrets_by_benchmark``: plot the percentage of regret trials as a function of benchmark.
+- ``plot_reward_rate``: plot reward rate as a function of selectivity.
+- ``plot_roc_demonstration``: demonstrative plot of response distribution and roc.
+- ``plot_rt_cdf``: fit reaction time to gamma distribution.
+- ``plot_selectivity_gif``: plot gif to explain the concept of selectivity.
+- ``plot_single_trial_SNMDA_SGABA``: plot S_NMDA, S_GABA as a function of time.
+- ``plot_single_trial_SNMDA``: plot S_NMDA as a function of time.
+- ``plot_steady_state_demonstration``: plot demonstration of how the quadratic relation is a subtraction of deviation (lag) from the steady-state solution.
+- ``plot_trace_gif``: plot traces of simulations in gif.
+- ``plot_velocity_magnitude_contourplot``: plot velocity magnitude as a contour plot.
+- ``plot_velocity_magnitude``: plot velocity magnitude as a function of time.
+- ``sweep_WWM_v2``: plot parameter sweep of WWM as 2D slices.
+
 ### test
 
 Code that tests rudimentary functions and ideas.

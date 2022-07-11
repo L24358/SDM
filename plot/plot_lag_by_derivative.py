@@ -1,5 +1,5 @@
 '''
-Plot deviation (lag) as a function of the derivative of splus, sminus
+Plot deviation (lag) as a function of the derivative of splus, sminus.
 '''
 
 import os

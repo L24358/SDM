@@ -21,7 +21,7 @@
 
 ### POTENTIAL ISSUES
 - file path problems
-- Unaccounted for files: plot_accrt_selectivity, plot_accrt_thre_nsig, plot_accrt_thre_phase (?),
+- Unaccounted for files (in local desktop): plot_accrt_selectivity, plot_accrt_thre_nsig, plot_accrt_thre_phase (?),
 plot_accrt_thre-2, plot_accrt_thre-2-extreme, plot_aQ_by_bm, plot_aQ_by_bm-2, plot_phase_space_selectivity, plot_phase_space_slope,
 plot_psych_metric_compare, plot_psych_metric_UMSM, plot_psych_metric-2, plot_psych_metric, plot_sameseed_compare_error, test*
 - Files that should be added: plot_contour, plot_lag_as_derivative, plot_phase_space_accrt, plot_psych_metric_agvals,
