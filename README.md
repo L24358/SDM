@@ -122,7 +122,7 @@ Code that plots results.
 
 ### test
 
-Code that tests rudimentary functions and ideas.
+Code that tests rudimentary functions and ideas. Includes ``test_auc_method`` and ``test_psychmetric_std``.
 
 <!-- ROADMAP -->
 ## Roadmap
